@@ -1,7 +1,10 @@
 import 'package:fancy_shimmer_image/fancy_shimmer_image.dart';
 import 'package:flutter/material.dart';
-import 'package:news_app/consts/vars.dart';
-import 'package:news_app/services/uitls.dart';
+import 'package:news_app_flutter_course/consts/styles.dart';
+import 'package:news_app_flutter_course/consts/vars.dart';
+
+import '../services/uitls.dart';
+import 'vertical_spacing.dart';
 
 class ArticalWidget extends StatelessWidget {
   const ArticalWidget({super.key});
@@ -48,16 +51,45 @@ class ArticalWidget extends StatelessWidget {
                           imageUrl: '',
                         ),
                       ), 
-                      SizedBox(width: 10,),
+                      const SizedBox(width: 10,),
                       Expanded(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start, 
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
-                          Text('title', 
+                          Text('title' , 
+                          textAlign: TextAlign.justify,
+                          maxLines: 2, 
+                          overflow: TextOverflow.ellipsis,
                           style: smallTextStyle
                           
-                          )
+                          ), 
+                        
+                          const VerticalSpacing(5), 
+                          Align(
+                            alignment: Alignment.topRight,
+                            child: Text('Reading Time',
+                             maxLines: 1,  
+                            style: smallTextStyle
+                            )
+                            
+                            ), 
+                            FittedBox(
+                              child: Row(children: [
+                                IconButton(onPressed: () {
+                                  
+                                },
+                                icon:  const Icon(
+                                  Icons.link, 
+                                  color: Colors.blue, 
+                                  )
+                                ), 
+                                Text('20-2-2020'*10, 
+                                maxLines: 1,
+                                style: smallTextStyle
+                                )
+                              ],),
+                            )
                         ],),
                       )
                     ],
