@@ -9,8 +9,8 @@ class GlobalMethods {
         builder: (context) {
           return AlertDialog(
             content: Text(errorMessage),
-            title: Row(
-              children: const [
+            title: const Row(
+              children: [
                 Icon(
                   IconlyBold.danger,
                   color: Colors.red,

@@ -1,7 +1,5 @@
 import 'package:card_swiper/card_swiper.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:news_app_flutter_course/consts/vars.dart';
@@ -10,11 +8,8 @@ import 'package:news_app_flutter_course/services/utils.dart';
 import 'package:news_app_flutter_course/widgets/drawer_widget.dart';
 import 'package:news_app_flutter_course/widgets/vertical_spacing.dart';
 import 'package:page_transition/page_transition.dart';
-import 'package:provider/provider.dart';
 
-import '../providers/theme_provider.dart';
 import '../widgets/articles_widget.dart';
-import '../widgets/loading_widget.dart';
 import '../widgets/tabs.dart';
 import '../widgets/top_tending.dart';
 
@@ -202,7 +197,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   viewportFraction: 0.9,
                   itemCount: 5,
                   itemBuilder: (context, index) {
-                    return TopTrendingWidget();
+                    return const TopTrendingWidget();
                   },
                 ),
               ),
@@ -236,12 +231,12 @@ class _HomeScreenState extends State<HomeScreen> {
       onPressed: () {
         function();
       },
-      child: Text(text),
       style: ElevatedButton.styleFrom(
           backgroundColor: Colors.blue,
-          padding: EdgeInsets.all(6),
+          padding: const EdgeInsets.all(6),
           textStyle:
               const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+      child: Text(text),
     );
   }
 }
