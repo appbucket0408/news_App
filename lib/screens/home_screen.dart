@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:card_swiper/card_swiper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
@@ -6,9 +8,13 @@ import 'package:news_app_flutter_course/consts/vars.dart';
 import 'package:news_app_flutter_course/inner_screens/search_screen.dart';
 import 'package:news_app_flutter_course/services/utils.dart';
 import 'package:news_app_flutter_course/widgets/drawer_widget.dart';
+import 'package:news_app_flutter_course/widgets/empty_screen.dart';
+import 'package:news_app_flutter_course/widgets/loading_widget.dart';
 import 'package:news_app_flutter_course/widgets/vertical_spacing.dart';
 import 'package:page_transition/page_transition.dart';
 
+import '../models/news_model.dart';
+import '../services/news_api.dart';
 import '../widgets/articles_widget.dart';
 import '../widgets/tabs.dart';
 import '../widgets/top_tending.dart';
@@ -24,6 +30,17 @@ class _HomeScreenState extends State<HomeScreen> {
   var newsType = NewsType.allNews;
   int currentPageIndex = 0;
   String sortBy = SortByEnum.publishedAt.name;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+  }
+
+  Future<List<NewsModel>> getNewsList() async {
+    List<NewsModel> newsList = await NewsApiServices().getAllNews();
+    return newsList;
+  }
+
   @override
   Widget build(BuildContext context) {
     Size size = Utils(context).getScreenSize;
@@ -102,7 +119,9 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             const VerticalSpacing(10),
             newsType == NewsType.topTrending
-                ? Container()
+                ? Container(
+                 
+                    )
                 : SizedBox(
                     height: kBottomNavigationBarHeight,
                     child: Row(
@@ -178,29 +197,55 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     ),
                   ),
-            if (newsType == NewsType.allNews)
-              Expanded(
-                child: ListView.builder(
-                    itemCount: 20,
-                    itemBuilder: (ctx, index) {
-                      return const ArticlesWidget();
-                    }),
-              ),
-            if (newsType == NewsType.topTrending)
-              SizedBox(
-                height: size.height * 0.6,
-                child: Swiper(
-                  autoplayDelay: 8000,
-                  autoplay: true,
-                  itemWidth: size.width * 0.9,
-                  layout: SwiperLayout.STACK,
-                  viewportFraction: 0.9,
-                  itemCount: 5,
-                  itemBuilder: (context, index) {
-                    return const TopTrendingWidget();
-                  },
-                ),
-              ),
+            FutureBuilder<List<NewsModel>>(
+              future: getNewsList(),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return newsType==NewsType.allNews?
+                  
+                   Expanded(
+                    child: LoadingWidget(newsType: newsType),
+                  ):Expanded(child: LoadingWidget(newsType: newsType),)
+                  ;
+                } else if (snapshot.hasError) {
+                  return Expanded(
+                    child: EmptyNewsWidget(
+                        text: "an error occured ${snapshot.error}",
+                        imagePath: 'assets/images/no_news.png'),
+                  );
+                } else if (snapshot.data == null) {
+                  return Expanded(
+                    child: EmptyNewsWidget(
+                        text: "No news Found ${snapshot.error}",
+                        imagePath: 'assets/images/no_news.png'),
+                  );
+                }
+                return newsType == NewsType.allNews
+                    ? Expanded(
+                        child: ListView.builder(
+                            itemCount: snapshot.data!.length,
+                            itemBuilder: (ctx, index) {
+                              return ArticlesWidget(
+                                imagUrl: snapshot.data![index].urlToImage!
+                              );
+                            }))
+                    : SizedBox(
+                        height: size.height*0.6,
+                        child: Swiper(
+                          autoplayDelay: 8000,
+                          autoplay: true,
+                          itemWidth: size.width * 0.9,
+                          itemCount: 5,
+                          itemBuilder: (context, index) {
+                            return TopTrendingWidget();
+                          },
+
+                          //  itemCount: itemCount
+                        ),
+                      );
+              },
+            ),
+        
             //  LoadingWidget(newsType: newsType),
           ]),
         ),

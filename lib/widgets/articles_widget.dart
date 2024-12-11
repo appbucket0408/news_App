@@ -9,10 +9,12 @@ import '../consts/styles.dart';
 import '../inner_screens/blog_details.dart';
 
 class ArticlesWidget extends StatelessWidget {
-  const ArticlesWidget({Key? key}) : super(key: key);
+  final String imagUrl;
+  const ArticlesWidget({Key? key, required this.imagUrl}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    print('in articles class');
     Size size = Utils(context).getScreenSize;
     return Padding(
       padding: const EdgeInsets.all(8.0),
@@ -48,14 +50,12 @@ class ArticlesWidget extends StatelessWidget {
                     ClipRRect(
                       borderRadius: BorderRadius.circular(10),
                       child: FancyShimmerImage(
-                        height: size.height * 0.12,
-                        width: size.height * 0.12,
-                        boxFit: BoxFit.fill,
-                        errorWidget:
-                            Image.asset('assets/images/empty_image.png'),
-                        imageUrl:
-                            "https://techcrunch.com/wp-content/uploads/2022/01/locket-app.jpg?w=1390&crop=1",
-                      ),
+                          height: size.height * 0.12,
+                          width: size.height * 0.12,
+                          boxFit: BoxFit.fill,
+                          errorWidget:
+                              Image.asset('assets/images/empty_image.png'),
+                          imageUrl: imagUrl),
                     ),
                     const SizedBox(
                       width: 10,
