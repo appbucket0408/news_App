@@ -9,8 +9,8 @@ import '../consts/styles.dart';
 import '../inner_screens/blog_details.dart';
 
 class ArticlesWidget extends StatelessWidget {
-  final String imagUrl;
-  const ArticlesWidget({Key? key, required this.imagUrl}) : super(key: key);
+  final String imagUrl, title, url, dataToShow, readingTime;
+  const ArticlesWidget({Key? key, required this.imagUrl, required this.title, required this.url, required this.dataToShow, required this.readingTime}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -66,7 +66,7 @@ class ArticlesWidget extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           Text(
-                            'title ' * 100,
+                            title * 100,
                             textAlign: TextAlign.justify,
                             maxLines: 2,
                             overflow: TextOverflow.ellipsis,
@@ -76,7 +76,7 @@ class ArticlesWidget extends StatelessWidget {
                           Align(
                             alignment: Alignment.topRight,
                             child: Text(
-                              '🕒 Reading time',
+                              '🕒 $readingTime',
                               style: smallTextStyle,
                             ),
                           ),
@@ -89,7 +89,7 @@ class ArticlesWidget extends StatelessWidget {
                                       context,
                                       PageTransition(
                                           type: PageTransitionType.rightToLeft,
-                                          child: const NewsDetailsWebView(),
+                                          child:  NewsDetailsWebView(url:url,),
                                           inheritTheme: true,
                                           ctx: context),
                                     );
@@ -100,7 +100,7 @@ class ArticlesWidget extends StatelessWidget {
                                   ),
                                 ),
                                 Text(
-                                  '20-2-2020 ' * 2,
+                                dataToShow,
                                   maxLines: 1,
                                   style: smallTextStyle,
                                 ),

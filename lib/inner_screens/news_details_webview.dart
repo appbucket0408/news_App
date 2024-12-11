@@ -10,7 +10,8 @@ import '../services/global_methods.dart';
 import '../services/utils.dart';
 
 class NewsDetailsWebView extends StatefulWidget {
-  const NewsDetailsWebView({Key? key}) : super(key: key);
+  const NewsDetailsWebView({Key? key, required this.url}) : super(key: key);
+  final String url;
 
   @override
   State<NewsDetailsWebView> createState() => _NewsDetailsWebViewState();
@@ -19,8 +20,7 @@ class NewsDetailsWebView extends StatefulWidget {
 class _NewsDetailsWebViewState extends State<NewsDetailsWebView> {
   late final WebViewController _webViewController;
   double _progress = 0.0;
-  final url =
-      "https://techcrunch.com/2022/06/17/marc-lores-food-delivery-startup-wonder-raises-350m-3-5b-valuation/";
+  
 
   @override
   void initState() {
@@ -36,7 +36,7 @@ class _NewsDetailsWebViewState extends State<NewsDetailsWebView> {
           },
         ),
       )
-      ..loadRequest(Uri.parse(url));
+      ..loadRequest(Uri.parse(widget.url));
   }
 
   @override
@@ -64,7 +64,7 @@ class _NewsDetailsWebViewState extends State<NewsDetailsWebView> {
           elevation: 0,
           centerTitle: true,
           title: Text(
-            "URL",
+           widget.url,
             style: TextStyle(color: color),
           ),
           actions: [
@@ -139,7 +139,7 @@ class _NewsDetailsWebViewState extends State<NewsDetailsWebView> {
                 title: const Text('Share'),
                 onTap: () async {
                   try {
-                    await Share.share(url, subject: 'Check this out!');
+                    await Share.share(widget.url, subject: 'Check this out!');
                   } catch (err) {
                     GlobalMethods.errorDialog(
                       errorMessage: err.toString(),
@@ -152,8 +152,8 @@ class _NewsDetailsWebViewState extends State<NewsDetailsWebView> {
                 leading: const Icon(Icons.open_in_browser),
                 title: const Text('Open in browser'),
                 onTap: () async {
-                  if (!await launchUrl(Uri.parse(url))) {
-                    throw 'Could not launch $url';
+                  if (!await launchUrl(Uri.parse(widget.url))) {
+                    throw 'Could not launch $widget.url';
                   }
                 },
               ),

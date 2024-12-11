@@ -226,7 +226,11 @@ class _HomeScreenState extends State<HomeScreen> {
                             itemCount: snapshot.data!.length,
                             itemBuilder: (ctx, index) {
                               return ArticlesWidget(
-                                imagUrl: snapshot.data![index].urlToImage!
+                                imagUrl: snapshot.data![index].urlToImage!,
+                                 title: snapshot.data![index].title!,
+                                  url: snapshot.data![index].url!,
+                                   dataToShow: snapshot.data![index].dateToShow!,
+                                    readingTime: snapshot.data![index].readingTimeText!
                               );
                             }))
                     : SizedBox(
@@ -237,7 +241,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           itemWidth: size.width * 0.9,
                           itemCount: 5,
                           itemBuilder: (context, index) {
-                            return TopTrendingWidget();
+                            return TopTrendingWidget(url: snapshot.data![index].url!);
                           },
 
                           //  itemCount: itemCount
