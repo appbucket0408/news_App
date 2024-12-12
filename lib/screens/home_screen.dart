@@ -1,4 +1,3 @@
-
 import 'package:card_swiper/card_swiper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
@@ -30,7 +29,7 @@ class _HomeScreenState extends State<HomeScreen> {
   var newsType = NewsType.allNews;
   int currentPageIndex = 0;
   String sortBy = SortByEnum.publishedAt.name;
- // NewsApiServices getnews = NewsApiServices();
+  // NewsApiServices getnews = NewsApiServices();
 
   // @override
   // void didChangeDependencies() {
@@ -46,7 +45,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     Size size = Utils(context).getScreenSize;
     final Color color = Utils(context).getColor;
-    final newsProvider = Provider.of<NewsProvider>(context, listen:false);
+    final newsProvider = Provider.of<NewsProvider>(context, listen: false);
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
@@ -193,12 +192,19 @@ class _HomeScreenState extends State<HomeScreen> {
                         child: DropdownButton(
                             value: sortBy,
                             items: dropDownItems,
-                            onChanged: (String? value) {}),
+                            onChanged: (String? value) {
+                              setState(() {
+                                sortBy = value!;
+                              });
+                            }),
                       ),
                     ),
                   ),
             FutureBuilder<List<NewsModel>>(
-              future: newsProvider.fetchAllNews(pageIndex: currentPageIndex+1),
+              future: newsProvider.fetchAllNews(
+                pageIndex: currentPageIndex + 1,
+                sortBy: sortBy,
+              ),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return newsType == NewsType.allNews
@@ -226,7 +232,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         child: ListView.builder(
                             itemCount: snapshot.data!.length,
                             itemBuilder: (ctx, index) {
-                              return ChangeNotifierProvider.value(  
+                              return ChangeNotifierProvider.value(
                                 value: snapshot.data![index],
                                 child: const ArticlesWidget(
                                     // imagUrl: snapshot.data![index].urlToImage!,
