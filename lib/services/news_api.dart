@@ -6,7 +6,7 @@ import '../models/news_model.dart';
 import 'package:http/http.dart' as http;
 
 class NewsApiServices {
-  Future<List<NewsModel>> getAllNews() async {
+  Future<List<NewsModel>> getAllNews({required int page}) async {
     // var url = Uri.parse(
     //     'https://newsapi.org/v2/everything?q=bitcoin&pageSize=5&apiKey=c026b13d7a074574bff2095bd35407e4');
     try {
@@ -14,6 +14,7 @@ class NewsApiServices {
         "q": "bitcoin",
         "pageSize": "5",
         "domains": "bbc.co.uk,techcrunch.com,engadet.com",
+        "page": page.toString(),
         // "apiKey": API_KEY
       });
 

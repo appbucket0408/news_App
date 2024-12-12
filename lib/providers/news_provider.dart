@@ -10,8 +10,8 @@ class NewsProvider with ChangeNotifier {
     return newList;
   }
 
-  Future<List<NewsModel>> fetchAllNews() async {
-    newList = await getnews.getAllNews();
+  Future<List<NewsModel>> fetchAllNews({required int pageIndex}) async {
+    newList = await getnews.getAllNews(page: pageIndex);
     return newList;
   }
 }
