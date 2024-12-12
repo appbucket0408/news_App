@@ -30,16 +30,17 @@ class _HomeScreenState extends State<HomeScreen> {
   var newsType = NewsType.allNews;
   int currentPageIndex = 0;
   String sortBy = SortByEnum.publishedAt.name;
+  NewsApiServices getnews = NewsApiServices();
 
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-  }
+  // @override
+  // void didChangeDependencies() {
+  //   super.didChangeDependencies();
+  // }
 
-  Future<List<NewsModel>> getNewsList() async {
-    List<NewsModel> newsList = await NewsApiServices().getAllNews();
-    return newsList;
-  }
+  // Future<List<NewsModel>> getNewsList() async {
+  //   List<NewsModel> newsList = await NewsApiServices().getAllNews();
+  //   return newsList;
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -119,9 +120,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             const VerticalSpacing(10),
             newsType == NewsType.topTrending
-                ? Container(
-                 
-                    )
+                ? Container()
                 : SizedBox(
                     height: kBottomNavigationBarHeight,
                     child: Row(
@@ -198,15 +197,16 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ),
             FutureBuilder<List<NewsModel>>(
-              future: getNewsList(),
+              future: getnews.getAllNews(),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
-                  return newsType==NewsType.allNews?
-                  
-                   Expanded(
-                    child: LoadingWidget(newsType: newsType),
-                  ):Expanded(child: LoadingWidget(newsType: newsType),)
-                  ;
+                  return newsType == NewsType.allNews
+                      ? Expanded(
+                          child: LoadingWidget(newsType: newsType),
+                        )
+                      : Expanded(
+                          child: LoadingWidget(newsType: newsType),
+                        );
                 } else if (snapshot.hasError) {
                   return Expanded(
                     child: EmptyNewsWidget(
@@ -226,22 +226,23 @@ class _HomeScreenState extends State<HomeScreen> {
                             itemCount: snapshot.data!.length,
                             itemBuilder: (ctx, index) {
                               return ArticlesWidget(
-                                imagUrl: snapshot.data![index].urlToImage!,
-                                 title: snapshot.data![index].title!,
+                                  imagUrl: snapshot.data![index].urlToImage!,
+                                  title: snapshot.data![index].title!,
                                   url: snapshot.data![index].url!,
-                                   dataToShow: snapshot.data![index].dateToShow!,
-                                    readingTime: snapshot.data![index].readingTimeText!
-                              );
+                                  dataToShow: snapshot.data![index].dateToShow!,
+                                  readingTime:
+                                      snapshot.data![index].readingTimeText!);
                             }))
                     : SizedBox(
-                        height: size.height*0.6,
+                        height: size.height * 0.6,
                         child: Swiper(
                           autoplayDelay: 8000,
                           autoplay: true,
                           itemWidth: size.width * 0.9,
                           itemCount: 5,
                           itemBuilder: (context, index) {
-                            return TopTrendingWidget(url: snapshot.data![index].url!);
+                            return TopTrendingWidget(
+                                url: snapshot.data![index].url!);
                           },
 
                           //  itemCount: itemCount
@@ -249,7 +250,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       );
               },
             ),
-        
+
             //  LoadingWidget(newsType: newsType),
           ]),
         ),

@@ -20,6 +20,7 @@ class EmptyNewsWidget extends StatelessWidget {
             padding: const EdgeInsets.all(18.0),
             child: Image.asset(
               imagePath,
+              height: 80, 
             ),
           ),
           Text(

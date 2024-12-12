@@ -1,5 +1,7 @@
 import 'package:reading_time/reading_time.dart';
 
+import '../services/global_methods.dart';
+
 class NewsModel {
   String? newsId;
   String? sourceName;
@@ -28,21 +30,26 @@ class NewsModel {
 
   factory NewsModel.fromJson(dynamic json) {
     String title = json['title'] ?? "";
-    String content =  json['content'] ?? "";
+    String content = json['content'] ?? "";
     String description = json['description'] ?? "";
+    String dateToShow = "";
+    if (json["publishedAt"] != null) {
+      dateToShow = GlobalMethods.formattedDateText(json['publishedAt']);
+    }
+
     return NewsModel(
         authorName: json['author'] ?? "",
         sourceName: json['source']['name'] ?? "",
         newsId: json['source']['id'] ?? "",
-        content:content,
-        description:description ,
+        content: content,
+        description: description,
         publishedAt: json['publishedAt'],
         url: json['url'] ?? "",
         title: title,
-        urlToImage: json['urlToImage'] ??  "https://techcrunch.com/wp-content/uploads/2022/01/locket-app.jpg?w=1390&crop=1",
-        dateToShow: "dateToShow",
-        readingTimeText: readingTime(title+description+content).msg
-        );
+        urlToImage: json['urlToImage'] ??
+            "https://techcrunch.com/wp-content/uploads/2022/01/locket-app.jpg?w=1390&crop=1",
+        dateToShow: dateToShow,
+        readingTimeText: readingTime(title + description + content).msg);
   }
   static List<NewsModel> newsFromSnapshot(List newSnapshot) {
     return newSnapshot.map((json) {
