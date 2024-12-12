@@ -39,7 +39,7 @@ dependencies:
   shimmer: ^2.0.0
   card_swiper: ^2.0.4
   # Management
-  provider: ^6.0.3
+  provider: ^6.1.2
   shared_preferences: ^2.0.15
   shared_preferences_web: any
   url_launcher: ^6.3.1

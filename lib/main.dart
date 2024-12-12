@@ -4,6 +4,7 @@ import 'package:news_app_flutter_course/inner_screens/blog_details.dart';
 import 'package:provider/provider.dart';
 
 //Screens
+import 'providers/news_provider.dart';
 import 'screens/home_screen.dart';
 
 //Consts
@@ -46,6 +47,10 @@ class _MyAppState extends State<MyApp> {
         ChangeNotifierProvider(create: (_) {
           //Notify about theme changes
           return themeChangeProvider;
+        }),
+          ChangeNotifierProvider(create: (_) {
+          //Notify about theme changes
+          return NewsProvider();
         }),
       ],
       child:

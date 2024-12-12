@@ -4,17 +4,19 @@ import 'package:news_app_flutter_course/inner_screens/news_details_webview.dart'
 import 'package:news_app_flutter_course/services/utils.dart';
 import 'package:news_app_flutter_course/widgets/vertical_spacing.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:provider/provider.dart';
 
 import '../consts/styles.dart';
 import '../inner_screens/blog_details.dart';
+import '../models/news_model.dart';
 
 class ArticlesWidget extends StatelessWidget {
-  final String imagUrl, title, url, dataToShow, readingTime;
-  const ArticlesWidget({Key? key, required this.imagUrl, required this.title, required this.url, required this.dataToShow, required this.readingTime}) : super(key: key);
+  const ArticlesWidget({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    print('in articles class');
+        final newsModelProvider = Provider.of<NewsModel>(context, listen:false);
+
     Size size = Utils(context).getScreenSize;
     return Padding(
       padding: const EdgeInsets.all(8.0),
@@ -55,7 +57,7 @@ class ArticlesWidget extends StatelessWidget {
                           boxFit: BoxFit.fill,
                           errorWidget:
                               Image.asset('assets/images/empty_image.png'),
-                          imageUrl: imagUrl),
+                          imageUrl:newsModelProvider.urlToImage!),
                     ),
                     const SizedBox(
                       width: 10,
@@ -66,7 +68,7 @@ class ArticlesWidget extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           Text(
-                            title * 100,
+                           (newsModelProvider. title)! * 100,
                             textAlign: TextAlign.justify,
                             maxLines: 2,
                             overflow: TextOverflow.ellipsis,
@@ -76,7 +78,7 @@ class ArticlesWidget extends StatelessWidget {
                           Align(
                             alignment: Alignment.topRight,
                             child: Text(
-                              '🕒 $readingTime',
+                              '🕒 ${newsModelProvider.readingTimeText}',
                               style: smallTextStyle,
                             ),
                           ),
@@ -89,7 +91,7 @@ class ArticlesWidget extends StatelessWidget {
                                       context,
                                       PageTransition(
                                           type: PageTransitionType.rightToLeft,
-                                          child:  NewsDetailsWebView(url:url,),
+                                          child:  NewsDetailsWebView(url: newsModelProvider.url!,),
                                           inheritTheme: true,
                                           ctx: context),
                                     );
@@ -100,7 +102,7 @@ class ArticlesWidget extends StatelessWidget {
                                   ),
                                 ),
                                 Text(
-                                dataToShow,
+                               newsModelProvider.dateToShow!,
                                   maxLines: 1,
                                   style: smallTextStyle,
                                 ),

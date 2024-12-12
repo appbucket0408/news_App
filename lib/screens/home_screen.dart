@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:card_swiper/card_swiper.dart';
 import 'package:flutter/material.dart';
@@ -12,9 +11,10 @@ import 'package:news_app_flutter_course/widgets/empty_screen.dart';
 import 'package:news_app_flutter_course/widgets/loading_widget.dart';
 import 'package:news_app_flutter_course/widgets/vertical_spacing.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:provider/provider.dart';
 
 import '../models/news_model.dart';
-import '../services/news_api.dart';
+import '../providers/news_provider.dart';
 import '../widgets/articles_widget.dart';
 import '../widgets/tabs.dart';
 import '../widgets/top_tending.dart';
@@ -30,7 +30,7 @@ class _HomeScreenState extends State<HomeScreen> {
   var newsType = NewsType.allNews;
   int currentPageIndex = 0;
   String sortBy = SortByEnum.publishedAt.name;
-  NewsApiServices getnews = NewsApiServices();
+ // NewsApiServices getnews = NewsApiServices();
 
   // @override
   // void didChangeDependencies() {
@@ -46,6 +46,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     Size size = Utils(context).getScreenSize;
     final Color color = Utils(context).getColor;
+    final newsProvider = Provider.of<NewsProvider>(context, listen:false);
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
@@ -197,7 +198,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ),
             FutureBuilder<List<NewsModel>>(
-              future: getnews.getAllNews(),
+              future: newsProvider.fetchAllNews(),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return newsType == NewsType.allNews
@@ -225,13 +226,17 @@ class _HomeScreenState extends State<HomeScreen> {
                         child: ListView.builder(
                             itemCount: snapshot.data!.length,
                             itemBuilder: (ctx, index) {
-                              return ArticlesWidget(
-                                  imagUrl: snapshot.data![index].urlToImage!,
-                                  title: snapshot.data![index].title!,
-                                  url: snapshot.data![index].url!,
-                                  dataToShow: snapshot.data![index].dateToShow!,
-                                  readingTime:
-                                      snapshot.data![index].readingTimeText!);
+                              return ChangeNotifierProvider.value(  
+                                value: snapshot.data![index],
+                                child: const ArticlesWidget(
+                                    // imagUrl: snapshot.data![index].urlToImage!,
+                                    // title: snapshot.data![index].title!,
+                                    // url: snapshot.data![index].url!,
+                                    // dataToShow: snapshot.data![index].dateToShow!,
+                                    // readingTime:
+                                    //     snapshot.data![index].readingTimeText!
+                                    ),
+                              );
                             }))
                     : SizedBox(
                         height: size.height * 0.6,
