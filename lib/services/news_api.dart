@@ -34,4 +34,27 @@ class NewsApiServices {
       throw e.toString();
     }
   }
+
+  Future<List<NewsModel>>getTopHeadlines()async{
+       try {
+      var uri = Uri.https(BASEURL, "v2/top-headlines", {
+       'country':'us'
+        // "apiKey": API_KEY
+      });
+
+      var response = await http.get(uri, headers: {"X-Api-Key": API_KEY});
+
+      Map data = jsonDecode(response.body);
+      List newsTempList = data["articles"];
+      if (data['code'] != null) {
+        // throw "An error occured you do'nt have a key";
+        throw HttpException(data['code']);
+      }
+      return newsTempList
+          .map((article) => NewsModel.fromJson(article))
+          .toList();
+    } catch (e) {
+      throw e.toString();
+    }
+  }
 }

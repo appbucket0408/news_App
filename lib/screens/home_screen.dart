@@ -29,17 +29,7 @@ class _HomeScreenState extends State<HomeScreen> {
   var newsType = NewsType.allNews;
   int currentPageIndex = 0;
   String sortBy = SortByEnum.publishedAt.name;
-  // NewsApiServices getnews = NewsApiServices();
 
-  // @override
-  // void didChangeDependencies() {
-  //   super.didChangeDependencies();
-  // }
-
-  // Future<List<NewsModel>> getNewsList() async {
-  //   List<NewsModel> newsList = await NewsApiServices().getAllNews();
-  //   return newsList;
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -201,7 +191,8 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ),
             FutureBuilder<List<NewsModel>>(
-              future: newsProvider.fetchAllNews(
+              future: newsType==   NewsType.topTrending?  newsProvider.fetchTopHeadLines()
+             : newsProvider.fetchAllNews(
                 pageIndex: currentPageIndex + 1,
                 sortBy: sortBy,
               ),
@@ -252,8 +243,12 @@ class _HomeScreenState extends State<HomeScreen> {
                           itemWidth: size.width * 0.9,
                           itemCount: 5,
                           itemBuilder: (context, index) {
-                            return TopTrendingWidget(
-                                url: snapshot.data![index].url!);
+                            return ChangeNotifierProvider.value(
+                              value: snapshot.data![index],
+                              child: const TopTrendingWidget(
+                                 // url: snapshot.data![index].url!
+                                 ),
+                            );
                           },
 
                           //  itemCount: itemCount
