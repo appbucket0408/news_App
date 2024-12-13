@@ -8,6 +8,7 @@ import '../consts/vars.dart';
 import '../providers/bookmark_provider.dart';
 import '../services/utils.dart';
 import '../widgets/articles_widget.dart';
+import '../widgets/drawer_widget.dart';
 import '../widgets/loading_widget.dart';
 
 class BookmarkScreen extends StatefulWidget {
@@ -23,6 +24,7 @@ class _BookmarkScreenState extends State<BookmarkScreen> {
     Size size = Utils(context).getScreenSize;
     final Color color = Utils(context).getColor;
     return Scaffold(
+      drawer:DrawerWidget(),
       appBar: AppBar(
         iconTheme: IconThemeData(color: color),
         elevation: 0,
