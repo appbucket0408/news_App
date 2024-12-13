@@ -14,14 +14,11 @@ class BookmarksProvider with ChangeNotifier {
     return bookmarkList;
   }
 
-  Future<List<BookMarksModel>> fetchBookMarks(
-     ) async {
-    bookmarkList = await NewsApiServices.getBookmarks()?? [];
+  Future<List<BookMarksModel>> fetchBookMarks() async {
+    bookmarkList = await NewsApiServices.getBookmarks() ?? [];
+    notifyListeners();
     return bookmarkList;
   }
-
-
-
 
   Future<void> addToBookmark({required NewsModel newsmodel}) async {
     try {
@@ -29,7 +26,9 @@ class BookmarksProvider with ChangeNotifier {
 
       var response =
           await http.post(uri, body: json.encode(newsmodel.toJson()));
+            notifyListeners();
       print(response.statusCode);
+      
       log(response.body);
       // Map data = jsonDecode(response.body);
     } catch (e) {
@@ -37,14 +36,15 @@ class BookmarksProvider with ChangeNotifier {
     }
   }
 
-  Future<void> deleteBookmark() async {
+  Future<void> deleteBookmark({required String key}) async {
     try {
       var uri =
-          Uri.https(BASEURL_Firebase, "bookmarks/-ODyupnNJySRfLPG0S4E.json");
+          Uri.https(BASEURL_Firebase, "bookmarks/$key.json");
 
       var response = await http.delete(
         uri,
       );
+        notifyListeners();
       print('in delete api ${response.statusCode}');
       log(response.body);
       // Map data = jsonDecode(response.body);

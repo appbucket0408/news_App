@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
 
 import '../consts/styles.dart';
+import '../models/bookmark_model.dart';
 import '../providers/bookmark_provider.dart';
 import '../providers/news_provider.dart';
 import '../services/global_methods.dart';
@@ -21,15 +22,36 @@ class NewsDetailsScreen extends StatefulWidget {
 }
 
 class _NewsDetailsScreenState extends State<NewsDetailsScreen> {
-      bool isInBookmark = false;
+  bool isInBookmark = false;
+  String? publishedAt;
+  dynamic currentBookMark;
+
+  @override
+  void didChangeDependencies() {
+    publishedAt = ModalRoute.of(context)!.settings.arguments as String;
+    final bookMarksProvider = Provider.of<BookmarksProvider>(context);
+    final List<BookMarksModel> bookmarkList = bookMarksProvider.bookmarkList;
+
+    if (bookmarkList.isEmpty) {
+      return;
+    }
+    currentBookMark = bookmarkList
+        .where((element) => element.publishedAt == publishedAt)
+        .toList();
+    if (currentBookMark.isEmpty) {
+      isInBookmark = false;
+    } else {
+      isInBookmark = true;
+    }
+    super.didChangeDependencies();
+  }
 
   @override
   Widget build(BuildContext context) {
     final color = Utils(context).getColor;
     final newsProvider = Provider.of<NewsProvider>(context);
     final bookMarksProvider = Provider.of<BookmarksProvider>(context);
-    final publishedAt = ModalRoute.of(context)!.settings.arguments as String;
-    final currentNews = newsProvider.findByDate(publishedAt: publishedAt);
+    final currentNews = newsProvider.findByDate(publishedAt: publishedAt!);
 
     return Scaffold(
       appBar: AppBar(
@@ -134,12 +156,13 @@ class _NewsDetailsScreenState extends State<NewsDetailsScreen> {
                       ),
                       GestureDetector(
                         onTap: () async {
-                          if (!isInBookmark) {
-                            await bookMarksProvider.deleteBookmark();
+                          if (isInBookmark) {
+                            await bookMarksProvider.deleteBookmark(key:currentBookMark[0].bookmarkKey);
                           } else {
                             await bookMarksProvider.addToBookmark(
                                 newsmodel: currentNews);
                           }
+                          await bookMarksProvider.fetchBookMarks();
                         },
                         child: Card(
                           elevation: 10,
@@ -147,9 +170,11 @@ class _NewsDetailsScreenState extends State<NewsDetailsScreen> {
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Icon(
-                              IconlyLight.bookmark,
+                              isInBookmark
+                                  ? IconlyBold.bookmark
+                                  : IconlyLight.bookmark,
                               size: 28,
-                              color: color,
+                              color: isInBookmark ? Colors.green : color,
                             ),
                           ),
                         ),
