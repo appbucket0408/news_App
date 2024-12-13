@@ -21,6 +21,11 @@ class NewsProvider with ChangeNotifier {
     newsList = await getnews.getTopHeadlines();
     return newsList;
   }
+      Future<List<NewsModel>> searchnewsProvider({ required String query}
+     ) async {
+    newsList = await getnews.searchNews(query: query);
+    return newsList;
+  }
 
   NewsModel findByDate({required String publishedAt}) {
     return newsList
