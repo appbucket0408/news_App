@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import '../consts/api_consts.dart';
 import '../consts/http_exceptions.dart';
@@ -84,27 +85,78 @@ class NewsApiServices {
     }
   }
 
-  static Future<List<BookMarksModel>?> getBookmarks() async {
-    try {
-      var uri = Uri.https(BASEURL_Firebase, "bookmarks.json");
+  // static Future<List<BookMarksModel>?> getBookmarks() async {
+  //   try {
+  //     var uri = Uri.https(BASEURL_Firebase, "bookmarks.json");
 
-      var response = await http.get(
-        uri,
-      );
-      // print(response.statusCode);
-      // log(response.body);
-      Map data = jsonDecode(response.body);
-      List allKeys = [];
-      if (data['code'] != null) {
-        throw HttpException(data['code']);
-      }
-      for (String key in data.keys) {
-        allKeys.add(key);
-      }
-      return BookMarksModel.bookMarksSnapshot(json: data, allKeys: allKeys);
+  //     var response = await http.get(
+  //       uri,
+  //     );
+  //     // print(response.statusCode);
+  //     // log(response.body);
+  //     Map data = jsonDecode(response.body);
+  //     List allKeys = [];
+  //     if (data['code'] == null) {
+  //       throw HttpException(data['code']);
+  //     }
+  //     for (String key in data.keys) {
+  //       allKeys.add(key);
+  //     }
+  //     return BookMarksModel.bookMarksSnapshot(json: data, allKeys: allKeys);
 
-    } catch (e) {
-      throw '$e';
+  //   } catch (e, stackTrace) {
+  //   print("Error in getBookmarks: $e");
+  //   print("Stack trace: $stackTrace");
+  //   return null;
+  // }
+  // }
+
+
+   static Future<List<BookMarksModel>?> getBookmarks() async {
+  var uri = Uri.https(BASEURL_Firebase, "bookmarks.json");
+
+  try {
+    // Perform the HTTP GET request
+    var response = await http.get(uri);
+
+    // Check HTTP response status code
+    if (response.statusCode != 200) {
+      print("HTTP request failed with status code ${response.statusCode}");
+      return null; // Return null if the request fails
     }
+
+    // Log the response body
+    log(response.body);
+
+    // Check if the response body is empty
+    if (response.body.isEmpty) {
+      print("Empty response body received from the API");
+      return null; // Return null if the body is empty
+    }
+
+    // Parse the JSON response
+    Map<String, dynamic>? data;
+    try {
+      data = jsonDecode(response.body);
+    } catch (e) {
+      print("Failed to parse JSON: $e");
+      return null; // Return null if parsing fails
+    }
+
+    // Validate the parsed data
+    if (data == null || data.isEmpty) {
+      print("Parsed data is null or empty");
+      return null; // Return null if the data is invalid
+    }
+
+    // Extract keys and generate bookmark models
+    List<String> allKeys = data.keys.toList();
+    return BookMarksModel.bookMarksSnapshot(json: data, allKeys: allKeys);
+  } catch (e, stackTrace) {
+    print("Error in getBookmarks: $e");
+    print("Stack trace: $stackTrace");
+    return null;
   }
+}
+
 }

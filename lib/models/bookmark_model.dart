@@ -33,7 +33,7 @@ class BookMarksModel with ChangeNotifier {
 
   factory BookMarksModel.fromJson(
       {required dynamic json, required bookmarkKey}) {
-    String title = json['title'] ?? "";
+    String title = json['title'] ?? "No title";
     String content = json['content'] ?? "";
     String description = json['description'] ?? "";
     String dateToShow = "";
@@ -43,9 +43,9 @@ class BookMarksModel with ChangeNotifier {
 
     return BookMarksModel(
         bookmarkKey: bookmarkKey,
-        authorName: json['author'] ?? "",
-        sourceName: json['source']['name'] ?? "",
-        newsId: json['source']['id'] ?? "",
+        authorName: json['author'] ?? "Unknown Author",
+        sourceName: json['source']?['name'] ?? "Unknown Source",
+        newsId: json['source']?['id'] ?? "Unknown ID",
         content: content,
         description: description,
         publishedAt: json['publishedAt'],
@@ -56,12 +56,31 @@ class BookMarksModel with ChangeNotifier {
         dateToShow: dateToShow,
         readingTimeText: readingTime(title + description + content).msg);
   }
-  static List<BookMarksModel> bookMarksSnapshot(
-      {required dynamic json, required List allKeys}) {
-    return allKeys.map((key) {
-      return BookMarksModel.fromJson(json: json[allKeys], bookmarkKey: key);
-    }).toList();
-  }
+  // static List<BookMarksModel> bookMarksSnapshot(
+  //     {required dynamic json, required List allKeys}) {
+  //   return allKeys.map((key) {
+      
+  //     return BookMarksModel.fromJson(json: json[allKeys], bookmarkKey: key);
+  //   }).toList();
+  // }
+  static List<BookMarksModel> bookMarksSnapshot({
+  required dynamic json,
+  required List allKeys,
+}) {
+  return allKeys
+      .map((key) {
+        // Ensure each entry is not null
+        if (json[key] == null) {
+          print("Skipping null entry for key: $key");
+          return null;
+        }
+        // Safely create a BookMarksModel
+        return BookMarksModel.fromJson(json: json[key], bookmarkKey: key);
+      })
+      .where((bookmark) => bookmark != null) // Filter out nulls
+      .toList()
+      .cast<BookMarksModel>(); // Ensure correct type
+}
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = {};

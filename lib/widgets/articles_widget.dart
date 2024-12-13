@@ -8,14 +8,16 @@ import 'package:provider/provider.dart';
 
 import '../consts/styles.dart';
 import '../inner_screens/blog_details.dart';
+import '../models/bookmark_model.dart';
 import '../models/news_model.dart';
 
 class ArticlesWidget extends StatelessWidget {
-  const ArticlesWidget({Key? key}) : super(key: key);
+  final bool isBookmark;
+  const ArticlesWidget({Key? key,  this.isBookmark =false}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-        final newsModelProvider = Provider.of<NewsModel>(context, listen:false);
+    dynamic newsModelProvider = isBookmark? Provider.of<BookMarksModel>(context, listen: false): Provider.of<NewsModel>(context, listen: false);
 
     Size size = Utils(context).getScreenSize;
     return Padding(
@@ -25,7 +27,8 @@ class ArticlesWidget extends StatelessWidget {
         child: GestureDetector(
           onTap: () {
             // Navigate to the in app details screen
-            Navigator.pushNamed(context, NewsDetailsScreen.routeName, arguments: newsModelProvider.publishedAt);
+            Navigator.pushNamed(context, NewsDetailsScreen.routeName,
+                arguments: newsModelProvider.publishedAt);
           },
           child: Stack(
             children: [
@@ -59,7 +62,7 @@ class ArticlesWidget extends StatelessWidget {
                             boxFit: BoxFit.fill,
                             errorWidget:
                                 Image.asset('assets/images/empty_image.png'),
-                            imageUrl:newsModelProvider.urlToImage!),
+                            imageUrl: newsModelProvider.urlToImage!),
                       ),
                     ),
                     const SizedBox(
@@ -71,7 +74,7 @@ class ArticlesWidget extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           Text(
-                           (newsModelProvider. title)! * 100,
+                            (newsModelProvider.title)! * 100,
                             textAlign: TextAlign.justify,
                             maxLines: 2,
                             overflow: TextOverflow.ellipsis,
@@ -94,7 +97,9 @@ class ArticlesWidget extends StatelessWidget {
                                       context,
                                       PageTransition(
                                           type: PageTransitionType.rightToLeft,
-                                          child:  NewsDetailsWebView(url: newsModelProvider.url!,),
+                                          child: NewsDetailsWebView(
+                                            url: newsModelProvider.url!,
+                                          ),
                                           inheritTheme: true,
                                           ctx: context),
                                     );
@@ -105,7 +110,7 @@ class ArticlesWidget extends StatelessWidget {
                                   ),
                                 ),
                                 Text(
-                               newsModelProvider.dateToShow!,
+                                  newsModelProvider.dateToShow!,
                                   maxLines: 1,
                                   style: smallTextStyle,
                                 ),
