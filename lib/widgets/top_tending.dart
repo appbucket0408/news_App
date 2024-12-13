@@ -44,7 +44,7 @@ class TopTrendingWidget extends StatelessWidget {
                 ),
               ),
                Padding(
-                padding: EdgeInsets.all(8.0),
+                padding: const EdgeInsets.all(8.0),
                 child: Text(
                   '${newsModelProvider.title}',
                   style:const TextStyle(fontWeight: FontWeight.bold, fontSize: 24),

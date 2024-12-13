@@ -5,6 +5,7 @@ import 'package:news_app_flutter_course/inner_screens/blog_details.dart';
 import 'package:provider/provider.dart';
 
 //Screens
+import 'providers/bookmark_provider.dart';
 import 'providers/news_provider.dart';
 import 'screens/home_screen.dart';
 
@@ -14,8 +15,8 @@ import 'consts/theme_data.dart';
 //Providers
 import 'providers/theme_provider.dart';
 
-void main()async {
-    WidgetsFlutterBinding.ensureInitialized();
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
 
   runApp(const MyApp());
@@ -52,9 +53,13 @@ class _MyAppState extends State<MyApp> {
           //Notify about theme changes
           return themeChangeProvider;
         }),
-          ChangeNotifierProvider(create: (_) {
+        ChangeNotifierProvider(create: (_) {
           //Notify about theme changes
           return NewsProvider();
+        }),
+        ChangeNotifierProvider(create: (_) {
+          //Notify about theme changes
+          return BookmarksProvider();
         }),
       ],
       child:

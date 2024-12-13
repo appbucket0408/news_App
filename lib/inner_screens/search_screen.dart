@@ -152,7 +152,7 @@ class _SearchScreenState extends State<SearchScreen> {
               ),
             if (isSearching && searchList!.isEmpty)
               const Expanded(
-                child: const EmptyNewsWidget(
+                child: EmptyNewsWidget(
                   text: "Ops! No resuls found",
                   imagePath: 'assets/images/search.png',
                 ),

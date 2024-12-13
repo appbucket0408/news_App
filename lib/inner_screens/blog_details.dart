@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
 
 import '../consts/styles.dart';
+import '../providers/bookmark_provider.dart';
 import '../providers/news_provider.dart';
 import '../services/global_methods.dart';
 import '../services/utils.dart';
@@ -20,10 +21,13 @@ class NewsDetailsScreen extends StatefulWidget {
 }
 
 class _NewsDetailsScreenState extends State<NewsDetailsScreen> {
+      bool isInBookmark = false;
+
   @override
   Widget build(BuildContext context) {
     final color = Utils(context).getColor;
     final newsProvider = Provider.of<NewsProvider>(context);
+    final bookMarksProvider = Provider.of<BookmarksProvider>(context);
     final publishedAt = ModalRoute.of(context)!.settings.arguments as String;
     final currentNews = newsProvider.findByDate(publishedAt: publishedAt);
 
@@ -83,8 +87,8 @@ class _NewsDetailsScreenState extends State<NewsDetailsScreen> {
               SizedBox(
                 width: double.infinity,
                 child: Padding(
-                  padding:  EdgeInsets.only(bottom: 25),
-                  child: Hero( 
+                  padding: const EdgeInsets.only(bottom: 25),
+                  child: Hero(
                     tag: currentNews.publishedAt!,
                     child: FancyShimmerImage(
                       boxFit: BoxFit.fill,
@@ -129,7 +133,14 @@ class _NewsDetailsScreenState extends State<NewsDetailsScreen> {
                         ),
                       ),
                       GestureDetector(
-                        onTap: () {},
+                        onTap: () async {
+                          if (!isInBookmark) {
+                            await bookMarksProvider.deleteBookmark();
+                          } else {
+                            await bookMarksProvider.addToBookmark(
+                                newsmodel: currentNews);
+                          }
+                        },
                         child: Card(
                           elevation: 10,
                           shape: const CircleBorder(),

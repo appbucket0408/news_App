@@ -2,9 +2,11 @@ import 'package:card_swiper/card_swiper.dart';
 import 'package:flutter/material.dart';
 import 'package:news_app_flutter_course/services/utils.dart';
 import 'package:news_app_flutter_course/widgets/vertical_spacing.dart';
+import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 
 import '../consts/vars.dart';
+import '../providers/bookmark_provider.dart';
 
 class LoadingWidget extends StatefulWidget {
   const LoadingWidget({Key? key, required this.newsType}) : super(key: key);
@@ -23,6 +25,7 @@ class _LoadingWidgetState extends State<LoadingWidget> {
     baseShimmerColor = utils.baseShimmerColor;
     highlightShimmerColor = utils.highlightShimmerColor;
     widgetShimmerColor = utils.widgetShimmerColor;
+    Provider.of<BookmarksProvider>(context, listen: false).fetchBookMarks();
     super.didChangeDependencies();
   }
 
