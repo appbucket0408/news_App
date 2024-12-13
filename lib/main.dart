@@ -1,4 +1,5 @@
 //Packages
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:news_app_flutter_course/inner_screens/blog_details.dart';
 import 'package:provider/provider.dart';
@@ -13,7 +14,10 @@ import 'consts/theme_data.dart';
 //Providers
 import 'providers/theme_provider.dart';
 
-void main() {
+void main()async {
+    WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+
   runApp(const MyApp());
 }
 
