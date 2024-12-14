@@ -54,9 +54,43 @@ dependencies:
   intl: ^0.20.1
   firebase_core: ^3.8.1
   firebase_analytics: ^11.3.6
+  
+  
 dev_dependencies:
   flutter_test:
-    sdk: flutter
+    sdk: flutter 
+  flutter_native_splash: ^2.4.3  
+  flutter_launcher_icons: "^0.14.2"
+
+flutter_native_splash:
+  color: "#000000"
+  image: assets/images/newspaper.png
+  # branding: assets/branding-development.png
+  color_dark: "#121212"
+  image_dark: assets/images/newspaper.png
+  android_gravity: fill
+  fullscreen: true
+
+
+flutter_launcher_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/images/newsApp.png"
+  min_sdk_android: 21 # android min sdk min:16, default 21
+  adaptive_icon_background: "#ffffff"
+  adaptive_icon_foreground: "assets/images/newsApp.png"
+  web:
+    generate: true
+    image_path: "assets/images/newsApp.png"
+    background_color: "#hexcode"
+    theme_color: "#hexcode"
+  windows:
+    generate: true
+    image_path: "assets/images/newsApp.png"
+    icon_size: 48 # min:48, max:256, default: 48
+  macos:
+    generate: true
+    image_path: "assets/images/newsApp.png"  
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
@@ -84,6 +118,7 @@ flutter:
     - assets/images/search.png
     - assets/images/no_news.png
     - assets/images/no_news.png
+    - assets/images/newsApp.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
