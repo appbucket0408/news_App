@@ -44,6 +44,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                       'News app',
                       style: GoogleFonts.lobster(
                           textStyle: const TextStyle(
+                            color: Colors.blueAccent,
                               fontSize: 20, letterSpacing: 0.6)),
                     ),
                   ),
@@ -65,27 +66,27 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                 );
               },
             ),
-            ListTilesWidget(
-              label: "Bookmark",
-              icon: IconlyBold.bookmark,
-              fct: () {
-                  Navigator.pushReplacement(
-                  context,
-                  PageTransition(
-                      type: PageTransitionType.rightToLeft,
-                      child: const BookmarkScreen(),
-                      inheritTheme: true,
-                      ctx: context),
-                );
-              },
-            ),
+            // ListTilesWidget(
+            //   label: "Bookmark",
+            //   icon: IconlyBold.bookmark,
+            //   fct: () {
+            //       Navigator.pushReplacement(
+            //       context,
+            //       PageTransition(
+            //           type: PageTransitionType.rightToLeft,
+            //           child: const BookmarkScreen(),
+            //           inheritTheme: true,
+            //           ctx: context),
+            //     );
+            //   },
+            // ),
             const Divider(
               thickness: 5,
             ),
             SwitchListTile(
                 title: Text(
                   themeProvider.getDarkTheme ? 'Dark' : 'Light',
-                  style: const TextStyle(fontSize: 20),
+                  style: const TextStyle(fontSize: 20, color: Colors.blueAccent),
                 ),
                 secondary: Icon(
                   themeProvider.getDarkTheme
@@ -125,7 +126,7 @@ class ListTilesWidget extends StatelessWidget {
       ),
       title: Text(
         label,
-        style: const TextStyle(fontSize: 20),
+        style: const TextStyle(fontSize: 20, color:Colors.blueAccent),
       ),
       onTap: () {
         fct();
