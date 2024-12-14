@@ -54,11 +54,22 @@ dependencies:
   intl: ^0.20.1
   firebase_core: ^3.8.1
   firebase_analytics: ^11.3.6
-  # flutter_launcher_icons: ^0.14.2
+  
+  
 dev_dependencies:
   flutter_test:
     sdk: flutter 
+  flutter_native_splash: ^2.4.3  
   flutter_launcher_icons: "^0.14.2"
+
+flutter_native_splash:
+  color: "#000000"
+  image: assets/images/newsApp.png
+  # branding: assets/branding-development.png
+  color_dark: "#121212"
+  image_dark: assets/images/newsApp.png
+  android_gravity: center
+
 
 flutter_launcher_icons:
   android: "launcher_icon"
