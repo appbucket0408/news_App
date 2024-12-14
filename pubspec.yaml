@@ -64,11 +64,12 @@ dev_dependencies:
 
 flutter_native_splash:
   color: "#000000"
-  image: assets/images/newsApp.png
+  image: assets/images/newspaper.png
   # branding: assets/branding-development.png
   color_dark: "#121212"
-  image_dark: assets/images/newsApp.png
-  android_gravity: center
+  image_dark: assets/images/newspaper.png
+  android_gravity: fill
+  fullscreen: true
 
 
 flutter_launcher_icons:
