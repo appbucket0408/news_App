@@ -126,7 +126,7 @@ class NewsApiServices {
     }
 
     // Log the response body
-    log(response.body);
+   // log(response.body);
 
     // Check if the response body is empty
     if (response.body.isEmpty) {

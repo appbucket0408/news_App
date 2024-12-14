@@ -29,7 +29,7 @@ class BookmarksProvider with ChangeNotifier {
             notifyListeners();
       print(response.statusCode);
       
-      log(response.body);
+      //log(response.body);
       // Map data = jsonDecode(response.body);
     } catch (e) {
       throw '$e';
@@ -46,7 +46,7 @@ class BookmarksProvider with ChangeNotifier {
       );
         notifyListeners();
       print('in delete api ${response.statusCode}');
-      log(response.body);
+    //  log(response.body);
       // Map data = jsonDecode(response.body);
     } catch (e) {
       throw '$e';
