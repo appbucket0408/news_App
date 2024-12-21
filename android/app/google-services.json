@@ -27,9 +27,9 @@
     },
     {
       "client_info": {
-        "mobilesdk_app_id": "1:39600381765:android:9eaac7a981917da7fbe82c",
+        "mobilesdk_app_id": "1:39600381765:android:b237425ee1c55702fbe82c",
         "android_client_info": {
-          "package_name": "com.news.com"
+          "package_name": "com.unitednews.appbucket"
         }
       },
       "oauth_client": [],
