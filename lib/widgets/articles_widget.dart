@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fancy_shimmer_image/fancy_shimmer_image.dart';
-import 'package:news_app_flutter_course/inner_screens/news_details_webview.dart';
 import 'package:news_app_flutter_course/services/utils.dart';
 import 'package:news_app_flutter_course/widgets/vertical_spacing.dart';
-import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 
 import '../consts/styles.dart';
@@ -91,24 +89,24 @@ class ArticlesWidget extends StatelessWidget {
                           FittedBox(
                             child: Row(
                               children: [
-                                IconButton(
-                                  onPressed: () {
-                                    Navigator.push(
-                                      context,
-                                      PageTransition(
-                                          type: PageTransitionType.rightToLeft,
-                                          child: NewsDetailsWebView(
-                                            url: newsModelProvider.url!,
-                                          ),
-                                          inheritTheme: true,
-                                          ctx: context),
-                                    );
-                                  },
-                                  icon: const Icon(
-                                    Icons.link,
-                                    color: Colors.blue,
-                                  ),
-                                ),
+                                // IconButton(
+                                //   onPressed: () {
+                                //     Navigator.push(
+                                //       context,
+                                //       PageTransition(
+                                //           type: PageTransitionType.rightToLeft,
+                                //           child: NewsDetailsWebView(
+                                //             url: newsModelProvider.url!,
+                                //           ),
+                                //           inheritTheme: true,
+                                //           ctx: context),
+                                //     );
+                                //   },
+                                //   icon: const Icon(
+                                //     Icons.link,
+                                //     color: Colors.blue,
+                                //   ),
+                                // ),
                                 Text(
                                   newsModelProvider.dateToShow!,
                                   maxLines: 1,

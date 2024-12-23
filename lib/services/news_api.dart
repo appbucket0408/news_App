@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:developer';
 
 import '../consts/api_consts.dart';
 import '../consts/http_exceptions.dart';
