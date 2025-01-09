@@ -50,6 +50,9 @@ android {
 
            
            // signingConfig = signingConfigs.debug
+              ndk {
+                debugSymbolLevel 'SYMBOL_TABLE'
+            }
         }
     }
 }
